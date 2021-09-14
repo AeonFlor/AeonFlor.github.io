@@ -1,0 +1,339 @@
+I"Oo<p>진행 기간 : 2021.07.10 ~ 2021.07.12</p>
+
+<h5 id="예쁜-내-캐릭터">예쁜 내 캐릭터!</h5>
+
+<p>프로젝트 소개에 앞서 그냥 자랑하고 싶어서 첨부했다!</p>
+
+<p><img src="..\..\..\..\assets\images\2021-08-02-로스트아크 쌀먹 프로젝트\DevAeon.png" alt="DevAeon" /></p>
+
+<h5 id="쌀먹이란">쌀먹이란?</h5>
+
+<p>‘쌀먹’이란 ‘게임에서 얻을 수 있는 아이템을 팔아서 쌀을 사먹는다.’ 는 표현에서 비롯된 말로, 게임 플레이를 통해 얻은 재화를 현금으로 팔아서 생계 유지를 위해 사용하는 것을 말한다. 나는 쌀먹 정도까지는 아니지만 최소한의 현질로 효율적인 플레이를 하고 싶어서 쌀먹이라는 이름의 프로젝트를 진행하게 되었다.</p>
+
+<h5 id="가능성">가능성</h5>
+
+<p>로스트아크 게임에서 내 캐릭터의 생활 컨텐츠가 개방되었을 때 당시 ‘빛나는 가죽’이라는 아이템이 있었다. 이걸로 종종 100골드(당시 기준 한화 약 300원)씩 수급했었는데, 학생 입장에 과금에 부담이 있었기에 골드가 필요하면 이 방법을 주로 이용했었다. 어느 날 문득 이 아이템을 매입하는 사람은 왜 100골드씩 주며 구매하는지 궁금했고, 이에 대해서 알아보니 영지 컨텐츠에서 ‘빛나는 가죽’ 아이템을 재료로 사용하여 제작을 진행하면 더 높은 부가 가치를 창출할 수 있는 아이템을 만들 수 있어서 매입하는 것이었다.</p>
+
+<p>나는 이런 시스템에 가능성을 느껴 영지 컨텐츠에 대해 알아봤고, 제작 재료와 비용, 현재 시세, 거래소 수수료 등을 고려하여 최대 수익을 창출을 할 수 있는 아이템을 선정했다. 당시에는 일일이 계산하여 ‘신속 로브’라는 아이템이 가장 효율이 높다고 판단했는데 이런 계산 과정이 번거로워 프로그램을 만들기로 결정했다.</p>
+
+<h5 id="로스트아크-쌀먹-프로젝트의-시작">‘로스트아크 쌀먹’ 프로젝트의 시작</h5>
+
+<p>프로젝트를 시작하기에 앞서 꼭 필요한 기능과 항목에 대해 정리해봤다. 꼭 필요한 기능은 첫 번째로, 거래소 데이터를 읽어오는 기능, 두 번째로, 읽어온 데이터를 일정 양식에 맞추어 엑셀에 기록하는 기능, 마지막으로, 기록된 시세 데이터를 바탕으로 효율과 순이익을 계산하는 기능이다.</p>
+
+<p>거래소 데이터를 읽어오는 기능은 파이썬 라이브러리를 이용해 크롤링하기로 결정했고, 크롤링한 데이터를 csv 파일로 저장하여 엑셀 VBA 를 통해 읽고 기록하는 방식으로 구현하고자 했다. 마지막으로 효율과 순이익을 계산하는 기능은 엑셀 내 함수로도 처리 가능할 것이라고 생각하여 간단하게 처리했다.</p>
+
+<h5 id="파이썬-크롤러-만들기">파이썬 크롤러 만들기</h5>
+
+<p>파이썬 크롤러를 제작하기 전에 우선 로스트아크 거래소 페이지의 robots.txt 를 확인했다. robots.txt 란 웹 사이트에서 웹 크롤러와 같은 로봇들의 접근 허가 여부를 적어둔 문서라고 생각하면 되는데, 확인해본 결과 모두 allow 로 되어있어 문제없이 제작해도 된다는 걸 확인했다.</p>
+
+<p><img src="..\..\..\..\assets\images\2021-08-02-로스트아크 쌀먹 프로젝트\크롤링허가여부.PNG" alt="크롤링허가여부" /></p>
+
+<p>크롤러 기능 구현 전에 읽어보며 참고할 게 있으면 좋을 것 같아서 ‘파이썬 웹 크롤러 만들기’라는 제목의 책을 구매했다. 평소 데이터 마이닝에 관심이 있던 나에게 크롤링은 언젠가 꼭 배워야하는 기술로 느껴져 구매를 결정했는데 이번 프로젝트에서 도움이 되긴 했지만, 이 책에서 다루는 내용보다 훨씬 간단한 기능들만 사용했기에 구현 당시에는 구글링이 더 큰 도움이 됐었다.</p>
+
+<p>나는 크롤러에 이용되는 여러 라이브러리 중 selenium 이라는 라이브러리를 사용했는데, 코드를 통해 브라우저를 조작하는 기능이 있어서 로스트아크 거래소 사이트의 데이터를 긁어오기 적합해보여 사용을 결정했다. 사용법 자체는 간단해서 pip(Python Install Pakage)로 selenium 을 설치하고, 내장되어있는 함수를 이용하여 구현했다.</p>
+
+<p>아래는 구현한 코드이다. 일단은 기능 구현부터 하기 위해 되는대로 작성한 코드라 난잡하니 이걸 볼 미래의 나에게 이해를 바란다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlopen</span>
+<span class="c1">#from bs4 import BeautifulSoup
+</span><span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+
+<span class="c1"># 아래의 라이브러리들은 html 이 다 로드될 때까지 기다리는 기능 구현을 위해 import 했다.
+</span><span class="kn">from</span> <span class="nn">selenium.webdriver.common.by</span> <span class="kn">import</span> <span class="n">By</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.support</span> <span class="kn">import</span> <span class="n">expected_conditions</span> <span class="k">as</span> <span class="n">EC</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.support.ui</span> <span class="kn">import</span> <span class="n">WebDriverWait</span> <span class="k">as</span> <span class="n">wait</span>
+
+<span class="c1"># 항목을 찾지 못했을 때의 예외 처리를 위해서 import
+</span><span class="kn">from</span> <span class="nn">selenium.common.exceptions</span> <span class="kn">import</span> <span class="n">NoSuchElementException</span><span class="p">,</span><span class="n">StaleElementReferenceException</span>
+
+<span class="c1"># 페이지 읽어오는 함수
+</span><span class="k">def</span> <span class="nf">reading_page</span><span class="p">(</span><span class="n">category_Number</span><span class="p">,</span> <span class="n">page_Count</span><span class="p">):</span>
+	<span class="c1"># 로스트아크 거래소 사이트에서는 selectCategory() 라는 스크립트로 이동을 한다.
+</span>	<span class="c1"># selectCategory(int, int, boolean) 는 3 개의 인자를 가진다.
+</span>	<span class="c1"># 첫 번째 인자 - 대분류, 두 번째 인자 - 소분류, 세 번째 인자 - true 로 설정해야 이동 가능
+</span>	<span class="n">driver</span><span class="p">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s">"selectCategory("</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">category_Number</span><span class="p">)</span> <span class="o">+</span> <span class="s">", 0, true)"</span><span class="p">)</span>
+	<span class="c1">#wait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="tbodyItemList"]/tr[10]/td[6]/button')))
+</span>
+	<span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">page_Count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+		<span class="c1"># 페이지로 이동 후 로드가 완료될 때까지 대기
+</span>		<span class="n">driver</span><span class="p">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s">"paging.page("</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">)</span> <span class="o">+</span> <span class="s">")"</span><span class="p">)</span>
+		<span class="c1">#wait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//*[@id="tbodyItemList"]/tr[10]/td[6]/button')))
+</span>		<span class="n">time</span><span class="p">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+		<span class="c1"># 배틀 아이템
+</span>		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">):</span>
+			<span class="k">try</span><span class="p">:</span>
+				<span class="n">name</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s">'//*[@id="tbodyItemList"]/tr['</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span><span class="s">']/td[1]/div/span[2]'</span><span class="p">).</span><span class="n">text</span>
+				<span class="n">average_price_before</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s">'//*[@id="tbodyItemList"]/tr['</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span><span class="s">']/td[2]/div/em'</span><span class="p">).</span><span class="n">text</span>
+				<span class="n">lowest_price</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s">'//*[@id="tbodyItemList"]/tr['</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span><span class="s">']/td[4]/div/em'</span><span class="p">).</span><span class="n">text</span>
+
+				<span class="c1"># 로스트아크 거래소에서는 값이 999가 넘으면 반점(,)을 붙여 표시하기에 길이가 3 초과인 경우, 반점(,)을 없앤다.
+</span>				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">average_price_before</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+					<span class="n">average_price_before</span> <span class="o">=</span> <span class="n">average_price_before</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">','</span><span class="p">,</span><span class="s">''</span><span class="p">)</span>
+
+				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lowest_price</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+					<span class="n">lowest_price</span> <span class="o">=</span> <span class="n">lowest_price</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="s">','</span><span class="p">,</span><span class="s">''</span><span class="p">)</span>
+				<span class="k">try</span><span class="p">:</span>
+					<span class="n">sell_Count</span> <span class="o">=</span> <span class="n">driver</span><span class="p">.</span><span class="n">find_element_by_xpath</span><span class="p">(</span><span class="s">'//*[@id="tbodyItemList"]/tr['</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">']/td[1]/div/span[3]/em'</span><span class="p">).</span><span class="n">text</span>
+					<span class="n">sell_Count</span> <span class="o">=</span> <span class="n">sell_Count</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+					<span class="n">sell_Count</span> <span class="o">=</span> <span class="n">sell_Count</span>
+				<span class="k">except</span><span class="p">:</span>
+					<span class="n">sell_Count</span> <span class="o">=</span> <span class="s">"1"</span>
+
+
+				<span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">((</span><span class="n">page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="s">"번 아이템 명 : "</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">전날 평균 거래값 : "</span> <span class="o">+</span> <span class="n">average_price_before</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">최근 거래값 : "</span> <span class="o">+</span> <span class="n">lowest_price</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">판매 단위 : "</span> <span class="o">+</span> <span class="n">sell_Count</span><span class="p">)</span>
+				<span class="k">print</span><span class="p">(</span><span class="s">"------------------------------------------</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+
+				<span class="c1"># item_List 에 저장될 아이템의 데이터가 담긴 리스트이다.
+</span>				<span class="n">item_Data</span> <span class="o">=</span> <span class="p">[]</span> 
+
+				<span class="n">item_Data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+				<span class="n">item_Data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">average_price_before</span><span class="p">)</span>
+				<span class="n">item_Data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">lowest_price</span><span class="p">)</span>
+				<span class="n">item_Data</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">sell_Count</span><span class="p">)</span>
+
+				<span class="n">item_List</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item_Data</span><span class="p">)</span>
+
+			<span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+				<span class="k">print</span><span class="p">(</span><span class="s">"Load Over!</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+				<span class="k">break</span>
+
+<span class="c1"># selenium 의 webdriver 로 브라우저를 열어서 제어하는 방식 (Chrome 이용) 
+</span><span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="p">.</span><span class="n">Chrome</span><span class="p">(</span><span class="s">'chromedriver.exe'</span><span class="p">)</span>
+<span class="n">driver</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://lostark.game.onstove.com/Market'</span><span class="p">)</span>
+
+<span class="c1"># csv 파일에 저장될 아이템 목록 리스트
+</span><span class="n">item_List</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># 강화 재료 탭
+</span><span class="n">reading_page</span><span class="p">(</span><span class="mi">50000</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1"># 전투 용품 탭
+</span><span class="n">reading_page</span><span class="p">(</span><span class="mi">60000</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="c1"># 생활 탭
+</span><span class="n">reading_page</span><span class="p">(</span><span class="mi">90000</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="n">driver</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+
+<span class="c1"># 데이터를 다 가져오고, 이상이 없으면 csv 파일로 만들기 위해 item_List 를 만들었다.
+</span><span class="n">MarketData_csv</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">'./LoskArk_Market_Data.csv'</span><span class="p">,</span> <span class="s">'w+'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'ansi'</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s">''</span><span class="p">)</span>
+
+<span class="k">try</span><span class="p">:</span>
+	<span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="n">writer</span><span class="p">(</span><span class="n">MarketData_csv</span><span class="p">)</span>
+	
+	<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">average_price_before</span><span class="p">,</span> <span class="n">lowest_price</span><span class="p">,</span> <span class="n">sell_Count</span> <span class="ow">in</span> <span class="n">item_List</span><span class="p">:</span>
+		<span class="n">writer</span><span class="p">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">name</span><span class="p">,</span> <span class="n">average_price_before</span><span class="p">,</span> <span class="n">lowest_price</span><span class="p">,</span> <span class="n">sell_Count</span><span class="p">])</span>
+
+<span class="k">finally</span><span class="p">:</span>
+	<span class="n">MarketData_csv</span><span class="p">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h5 id="크롤러-구현-시-발생한-오류들">크롤러 구현 시 발생한 오류들</h5>
+
+<h6 id="로드가-안-된-상태에서-데이터를-읽어오려해서-생긴-오류">로드가 안 된 상태에서 데이터를 읽어오려해서 생긴 오류</h6>
+
+<p>구현 도중에 로드가 되지 않았는데 데이터를 읽는 오류가 발생해서 time.sleep(1) 외에도 selenium 의 내장 함수인 wait() 를 사용해봤다. 이 함수로 기능 구현을 하고 테스트까지 성공적으로 진행했는데 최근에 실행이 되지 않는 문제가 생겨 일단은 주석 처리해놓은 상태이다.</p>
+
+<h6 id="인코딩-문제로-엑셀에서-읽어오지-못하는-오류">인코딩 문제로 엑셀에서 읽어오지 못하는 오류</h6>
+
+<p>utf-8 로 인코딩 된 파일이 엑셀 내에서 ansi 로 디코딩되어 데이터가 깨지는 오류가 발생했다. 처음에는 VBA 로 엑셀 내에서 처리하려고 했는데 코드로 구현하려니 복잡해지는 것 같아서 그냥 ansi 로 인코딩 되게 처리해서 해결했다. 진짜 단순한 문제였는데 이 문제에 반나절 이상 썼다..</p>
+
+<h6 id="1000-단위-이상의-데이터에-반점이-붙어-숫자로-인식하지-못하는-오류">1000 단위 이상의 데이터에 반점(,)이 붙어 숫자로 인식하지 못하는 오류</h6>
+
+<p>아이템의 가격이 1000 골드 이상이 되면, 읽어올 때 단위 표시를 위해 반점(,)이 붙었다. 이 사실을 모르고 그대로 csv 파일에 저장해서 엑셀로 읽어오니 데이터가 엉키는 문제가 생겼다. 단순하게 가격 데이터의 길이가 3을 초과한다면 반점(,)을 없애는 방법으로 해결했다.</p>
+
+<h5 id="vba-로-기능-구현하기">VBA 로 기능 구현하기</h5>
+
+<p>처음에 기획했을 당시 군대에서 VBA 로 여러 매크로를 만들어봤던 경험이 있기에 VBA 기능 구현보다 파이썬 크롤러 제작에 더 많은 시간을 할애해야할 것 같았다. 하지만 실제로 구현해보니 외부 데이터를 불러오는 과정에서 헤매게 되어 크롤러보다 어렵게 구현했다. 이제와서 다시 보니 별 거 없어보이는 데 왜 이렇게 오래 걸린걸까?</p>
+
+<pre><code class="language-vbscript">Sub Show_marketPrice()
+    Dim i As Integer
+    Dim j As Integer
+    
+    Dim Item_Count As Integer '거래 단위
+    Dim Item_Color(2) As Long '아이템 색상 표기
+    
+    Dim Item_Obj As Range 'Find 함수로 읽어온 재료의 오브젝트
+    Dim Item_Profit As Range '순이익 영역
+    
+    Dim Item_Addr As String '재료의 오브젝트를 가리키는 주소값
+    Dim Item_Name As String '아이템 이름
+    
+    Dim Item_Price_EA As Double '개당 아이템 시세
+    Dim Item_ChangeRate As Double '변동률
+    
+    Item_Color(0) = RGB(255, 0, 0)
+    Item_Color(1) = RGB(0, 255, 0)
+    
+    i = 3
+    
+    With Worksheets("제작 목록")
+        Do While (.Range("B" &amp; i).Value &lt;&gt; "") '제작 대상의 아이템 이름셀이 비어있으면 끝으로 간주하고 탈출
+            j = 0
+            Do While (.Range(Chr(66 + j) &amp; i).Value &lt;&gt; "") '아이템과 재료 시세 불러오기
+                Item_Name = .Range(Chr(66 + j) &amp; i).Value
+                
+                Set Item_Obj = Worksheets("재료 시세").Columns(1).Find(Item_Name, Lookat:=xlWhole)
+                
+                If Item_Obj Is Nothing Then
+                    MsgBox "'" &amp; Item_Name &amp; "'의 시세 데이터가 없습니다."
+                    .Range(Chr(66 + j) &amp; i + 2).Value = 0
+                    
+                Else
+                    Item_Addr = Item_Obj.Address
+                    Item_Price_EA = Worksheets("재료 시세").Range(Item_Addr).Offset(, 4).Value
+                    Item_Count = Worksheets("재료 시세").Range(Item_Addr).Offset(, 3).Value
+                    .Range(Chr(66 + j) &amp; i + 2).Value = .Range(Chr(66 + j) &amp; i + 1).Value * Item_Price_EA
+                    
+                    If Worksheets("재료 시세").Range(Item_Addr).Offset(, 1) &lt;&gt; "-" Then
+                        Item_ChangeRate = (Worksheets("재료 시세").Range(Item_Addr).Offset(, 2) - Worksheets("재료 시세").Range(Item_Addr).Offset(, 1)) / Worksheets("재료 시세").Range(Item_Addr).Offset(, 1) * 100
+                        
+                        If Item_ChangeRate &gt; 0 Then
+                            .Range(Chr(66 + j) &amp; i + 3).Value = Item_ChangeRate &amp; " %"
+                            .Range(Chr(66 + j) &amp; i + 3).Font.Color = Item_Color((j = 0) * -1)
+                        
+                        ElseIf Item_ChangeRate &lt; 0 Then
+                            .Range(Chr(66 + j) &amp; i + 3).Value = Item_ChangeRate &amp; " %"
+                            .Range(Chr(66 + j) &amp; i + 3).Font.Color = Item_Color((j &lt;&gt; 0) * -1)
+                            
+                        Else
+                            .Range(Chr(66 + j) &amp; i + 3) = Item_ChangeRate &amp; " %"
+                        
+                        End If
+                    
+                    Else
+                        .Range(Chr(66 + j) &amp; i + 3).Value = "-"
+                        .Range(Chr(66 + j) &amp; i + 3).Font.Color = RGB(255, 255, 255)
+                    
+                    End If
+                End If
+                j = j + 1
+            Loop
+            i = i + 5
+        Loop
+        
+        i = 2
+        
+        Do While (.Range("K" &amp; i).Value &lt;&gt; "")
+            Set Item_Profit = .Range("K" &amp; i)
+            
+            If Item_Profit.Value &gt; 0 Then
+                Item_Profit.Font.Color = Item_Color(1)
+            
+            ElseIf Item_Profit.Value &lt; 0 Then
+                Item_Profit.Font.Color = Item_Color(0)
+            
+            End If
+            i = i + 5
+        Loop
+    End With
+End Sub
+
+Sub Load_marketPrice()
+    Dim market_Data As String
+    Dim fileHandle As Integer
+    Dim textline As String
+    Dim item_Data() As String
+    Dim i As Integer
+    Dim nRow As Integer
+        
+    On Error GoTo errorMessage
+    
+    nRow = 2
+
+    fileHandle = FreeFile
+    
+    market_Data = "C:\Users\박상원\Desktop\Project\LostArk_SSALMUK\LoskArk_Market_Data.csv"
+    
+    Open market_Data For Input As fileHandle
+    
+    With Worksheets("재료 시세")
+    
+        Do Until EOF(fileHandle)
+        
+            Line Input #fileHandle, textline
+            Debug.Print textline
+            item_Data() = Split(textline, ",")
+            
+            Debug.Print UBound(item_Data)
+            
+            For i = 0 To UBound(item_Data) 'UBound() - 배열의 마지막 인덱스 번호를 반환하는 함수
+                .Range(Chr(65 + i) &amp; nRow) = item_Data(i)
+            Next i
+            
+            nRow = nRow + 1
+        Loop
+    End With
+    
+quitsub:
+        Close fileHandle
+        Exit Sub
+        
+errorMessage:
+        MsgBox "다음과 같은 문제가 발생하여 Load 를 중단했습니다! -&gt; " &amp; Err.Description
+        Resume quitsub
+End Sub
+
+Sub Hide_marketPrice()
+
+    Dim i As Integer
+    Dim j As Integer
+    
+    i = 3
+    
+    With Worksheets("제작 목록")
+        Do While (.Range("B" &amp; i).Value &lt;&gt; "")
+            For j = 0 To 6
+                .Range(Chr(66 + j) &amp; i).Offset(2).Value = ""
+                .Range(Chr(66 + j) &amp; i).Offset(3).Value = ""
+            Next
+            i = i + 5
+        Loop
+    End With
+End Sub
+
+Sub Erase_marketPrice()
+
+    Dim i As Integer
+    Dim j As Integer
+    
+    i = 2
+    
+    With Worksheets("재료 시세")
+        Do While (.Range("A" &amp; i).Value &lt;&gt; "")
+            For j = 0 To 3
+                .Range(Chr(65 + j) &amp; i).Value = ""
+            Next
+            i = i + 1
+        Loop
+    End With
+End Sub
+
+
+
+'Range 형식의 데이터에는 값을 할당할 때 Set 을 써야 한다. Dim 과 Set 의 차이점 알아보기
+'Debug.Print Int(True) 가 왜 -1 이지? 1 이어야 하지 않나? 일단 -1 곱해서 해결했다.
+
+</code></pre>
+
+<h5 id="시연-영상">시연 영상</h5>
+
+<p><a href="https://youtu.be/RrSWrqSFc-0"><img src="https://img.youtube.com/vi/RrSWrqSFc-0/0.jpg" alt="LostArk_SSALMUK" /></a></p>
+
+<h5 id="후기">후기</h5>
+
+<p>거의 처음으로 계획을 세워서 진행한 프로젝트였는데 성공적으로 마무리돼서 기쁘다. 실질적인 이득도 있었고, 무엇보다 보람이 가장 컸다. 여태까지는 그저 성적을 위한 개발만 하다가 실용적인 개발을 하니 그 만족감이 이루 말할 수 없었다.</p>
+
+<p>실질적인 이득에 대해서 이야기 해보자면 근 3 주간(21.07.13 ~ 21.08.01) 영지 제작으로 최소 30,000 골드 정도 순이익을 낸 것 같다. 정확하게 집계 해봤으면 좋았을텐데 버는 족족 새로 제작하거나 아이템 구매, 강화, 영지 연구등에 사용해서 정확한 이익은 계산하기 어렵다. 다만 확실한 건 초기 5500원으로 2000 골드를 투자해서 현재 아이템 레벨 1355 짜리 바드 캐릭터의 각인서를 다 맞추고, 에르마다 선박을 구매하는 등 큰 이익을 냈다는 것이다.</p>
+
+<p>제작 당시 이론상으로는 하루에 5,000 골드씩 순 이익을 낼 수 있었는데 내가 제작할 수 있는 아이템 중 가장 효율이 높았던 ‘정령의 회복약’ 재료 아이템 시세가 5배 이상 뛰어 순이익이 크게 감소하기도 했고, 아직 영지 레벨이 모자라 제작할 수 있는 슬롯의 한계도 있어 이런 결과가 나온 것 같다.</p>
+
+<p>그리고 최근에 아브렐슈드 업데이트에 앞서 중요 배틀 아이템 중 하나의 각성 물약의 시세가 오를 것이라고 판단해 600개를 제작해두었는데 시세가 반토막 나버렸다. 인생.. 욕심에 눈이 먼 쌀먹충의 바람직한 최후라고 할 수 있겠다.. 또르륵</p>
+
+<p><img src="..\..\..\..\assets\images\2021-08-02-로스트아크 쌀먹 프로젝트\각성물약개수.PNG" alt="각성물약개수" /></p>
+
+<p>남아있는 골드.. 눈물 난다. 이걸로 새출발해서 1000골 정도로 복구했다. 각성 물약은 묵혀놔야지..</p>
+
+<p><img src="..\..\..\..\assets\images\2021-08-02-로스트아크 쌀먹 프로젝트\각성물약 시세.PNG" alt="각성물약 시세" /></p>
+:ET
